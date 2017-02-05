@@ -1,5 +1,9 @@
 <?php
-return array(
+
+$apis = require('apis.php');
+$routes = require('routes.php');
+
+$baseConf = array(
 	//'配置项'=>'配置值'
 	'TMPL_ENGINE_TYPE' => 'php',
 	//数据库配置信息
@@ -11,14 +15,9 @@ return array(
 	'DB_PORT'   => 3306, // 端口
 	'DB_PREFIX' => 'tp_', // 数据库表前缀
 	'DB_CHARSET'=> 'utf8', // 字符集
-	'DB_DEBUG'  =>  TRUE, // 数据库调试模式 开启后可以记录SQL日志 3.2.3新增
-	'APIS' => array(
-		'test' => array(
-			'fields' => array('field1', 'field2'),
-			'url' => 'http://baidu.com',
-			'request' => 'TestRequest',
-			'response' => 'TestResponse',
-		)
-	),
+	'DB_DEBUG'  =>  TRUE,// 数据库调试模式 开启后可以记录SQL日志 3.2.3新增
 );
+
+return array_merge($baseConf, $routes, $apis);
+
 ?>

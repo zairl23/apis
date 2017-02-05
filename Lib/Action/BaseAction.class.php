@@ -1,6 +1,6 @@
 <?php
 
-class ApiAction extends Action {
+class BaseAction extends Action {
 
   public function _initialize()
   {
@@ -15,10 +15,10 @@ class ApiAction extends Action {
   public function _before_index()
   {
     $this->channelId = $this->_request('channelId', '', 'test');
-    $requestName = $this->config[$this->channelId]['request'];
+    $requestName = $this->config[$this->channelId][MODULE_NAME]['request'];
     import("@.Util." . $requestName);
     $request = new $requestName($_POST);
-    $result = $request->check($this->config[$this->channelId]['fields']);
+    $result = $request->check($this->config[$this->channelId][MODULE_NAME]['fields']);
     if ($result === 1) {
       import('@.Util.Response');
       Response::json('error', '', array());exit;
@@ -34,11 +34,12 @@ class ApiAction extends Action {
     echo "Data:" . json_encode();
     echo "Url:" . $this->url;
     echo 'post datas to the url';
+    echo 'Now the action: ' . MODULE_NAME;
 
     try {
       // post the data to remote server api
       $this->result = array();
-      $responseName = $this->config[$this->channelId]['response'];
+      $responseName = $this->config[$this->channelId][MODULE_NAME]['response'];
       import("@.Util." . $responseName);
       $this->response = new $responseName('success', '', $this->result);
     } catch (Exception $e) {
